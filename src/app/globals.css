@@ -1,13 +1,9 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --text-color: #ffffff;
+  --text-color-hover: #373c40;
+  --button-bg-color: rgba(0, 0, 0, 0.35);
+  --button-bg-color-hover: #d1d4de;
+  --menu-bg-color: rgba(48, 52, 56, 0.55);
 }
 
 html,
@@ -17,11 +13,14 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-color);
+  background: linear-gradient(
+    to bottom,
+    rgba(70, 76, 81, 1),
+    rgba(80, 88, 96, 1)
+  );
+  height: 100vh;
+  font-family: var(--font-inter), Arial;
 }
 
 * {
@@ -35,9 +34,7 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+button {
+  border: none;
+  cursor: pointer;
 }
-
