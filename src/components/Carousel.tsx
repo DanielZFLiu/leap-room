@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   ShareNetworkIcon,
@@ -39,7 +39,7 @@ export default function Carousel({
   setCurrentSpaceInd: (index: number) => void;
 }) {
   const images = spaces.map((space) => space.src);
-  if (images.length === 0) return null;
+  const hasImages = images.length > 0;
 
   /* refs (persist across renders, mutable) */
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -112,7 +112,7 @@ export default function Carousel({
     if (currentSpaceInd >= images.length && images.length > 0) {
       setCurrentSpaceInd(images.length - 1);
     }
-  }, [currentSpaceInd, images.length]);
+  }, [currentSpaceInd, images.length, setCurrentSpaceInd]);
 
   /* -------------------------------------------------------------------------- */
   /*                                   helpers                                  */
@@ -219,6 +219,10 @@ export default function Carousel({
   /* -------------------------------------------------------------------------- */
   /*                                   render                                   */
   /* -------------------------------------------------------------------------- */
+
+  if (!hasImages) {
+    return null;
+  }
 
   return (
     <div
