@@ -32,24 +32,3 @@
   background-color: var(--button-bg-color-hover);
   color: var(--text-color-hover);
 }
-
-@media (max-width: 600px) {
-  .toolbar {
-    flex-wrap: wrap;
-    width: calc(100% - 24px);
-    padding: 12px;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .button {
-    flex: 1 1 calc(50% - 12px);
-    justify-content: center;
-  }
-}
-
-@media (max-width: 400px) {
-  .button {
-    flex-basis: 100%;
-  }
-}

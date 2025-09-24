@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   ShareNetworkIcon,
@@ -158,7 +158,6 @@ export default function Carousel({
 
   // start drag
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
-
     // only start drag in slide image area
     const target = event.target;
     let elementTarget: Element | null = null;
