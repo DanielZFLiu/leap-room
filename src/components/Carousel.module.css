@@ -94,3 +94,9 @@
 .blurring {
   filter: blur(6px);
 }
+
+.add-new-button{
+  background: transparent;
+  position: absolute;
+  right: -135px;
+}

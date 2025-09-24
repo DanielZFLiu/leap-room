@@ -1,6 +1,11 @@
 ﻿"use client";
 
-import { ShareNetworkIcon, HeartIcon, CopyIcon } from "@phosphor-icons/react";
+import {
+  ShareNetworkIcon,
+  HeartIcon,
+  CopyIcon,
+  PlusIcon,
+} from "@phosphor-icons/react";
 import {
   useEffect,
   useLayoutEffect,
@@ -155,6 +160,16 @@ export default function Carousel({
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
     if (images.length <= 1) return;
 
+    // only start drag in slide image area
+    const target = event.target;
+    let elementTarget: Element | null = null;
+    if (target instanceof Element) {
+      elementTarget = target;
+    } else if (target instanceof Node) {
+      elementTarget = target.parentElement;
+    }
+    if (elementTarget?.closest("[data-carousel-block-drag]")) return;
+
     measureLayout();
     event.preventDefault();
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -238,7 +253,7 @@ export default function Carousel({
             />
 
             {/* the space caption */}
-            <div className={styles.caption}>
+            <div className={styles.caption} data-carousel-block-drag="true">
               <div className={styles["caption-text"]}>
                 <h1 className={styles.name}>{spaces[index].name}</h1>
                 <div className={styles.description}>
@@ -263,6 +278,13 @@ export default function Carousel({
             </div>
           </div>
         ))}
+
+        <button
+          className={styles["add-new-button"]}
+          data-carousel-block-drag="true"
+        >
+          <PlusIcon size={80} color="#818C98" weight="light" />
+        </button>
       </div>
     </div>
   );
