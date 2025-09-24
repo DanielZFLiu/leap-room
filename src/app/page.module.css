@@ -12,3 +12,18 @@
     user-select: none;
     -webkit-user-drag: none;
 }
+
+@media (max-width: 768px) {
+    .main-canvas{
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 96px 16px 32px;
+        gap: 24px;
+    }
+
+    .main-img{
+        height: auto;
+        max-height: calc(100vh - 160px);
+        border-radius: 16px;
+    }
+}

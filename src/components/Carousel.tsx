@@ -158,7 +158,6 @@ export default function Carousel({
 
   // start drag
   function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
-    if (images.length <= 1) return;
 
     // only start drag in slide image area
     const target = event.target;
