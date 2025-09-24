@@ -6,15 +6,13 @@
   background-color: var(--menu-bg-color);
   backdrop-filter: blur(8px);
 
-  /* border: 1px red solid; */
-
   position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.toolbar button {
+.button{
   border-radius: 12px;
   padding: 12px 16px;
   display: flex;
@@ -30,7 +28,7 @@
   transition: all 0.3s;
 }
 
-.toolbar button:hover {
+.button:hover {
   background-color: var(--button-bg-color-hover);
   color: var(--text-color-hover);
 }

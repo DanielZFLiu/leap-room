@@ -31,19 +31,64 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border-radius: 16px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.slide .caption {
+  position: absolute;
+  top: calc(80vh + 27px);
+  width: calc(80vw - 80px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slide .caption .caption-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+}
+
+.slide .caption .caption-text .name {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.slide .caption .caption-text .description {
+  display: flex;
+  gap: 40px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.slide .caption .caption-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.slide .caption .caption-actions button {
+  height: 40px;
 }
 
 .ghost {
   pointer-events: none;
 }
 
-.image {
+.slide .image {
   width: 100%;
   height: 100%;
   max-width: 80vw;
   max-height: 80vh;
   object-fit: cover;
   pointer-events: none;
+
+  border-radius: 16px;
 }
 
 .blurring {

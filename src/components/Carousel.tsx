@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import { ShareNetworkIcon, HeartIcon, CopyIcon } from "@phosphor-icons/react";
 import {
   useEffect,
   useLayoutEffect,
@@ -7,16 +8,13 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import { type Space } from "../data/data";
 import styles from "./Carousel.module.css";
+import buttonStyles from "./ToolBar.module.css";
 
 /* -------------------------------------------------------------------------- */
 /*                              types & constants                             */
 /* -------------------------------------------------------------------------- */
-
-type CarouselProps = {
-  images: string[];
-};
-
 type Layout = {
   carouselWidth: number;
   slideWidth: number;
@@ -26,7 +24,16 @@ type Layout = {
 const TRANSITION_DURATION = 300;
 const INITIAL_LAYOUT: Layout = { carouselWidth: 0, slideWidth: 0, gap: 0 };
 
-export default function Carousel({ images }: CarouselProps) {
+export default function Carousel({
+  spaces,
+  currentSpaceInd,
+  setCurrentSpaceInd,
+}: {
+  spaces: Space[];
+  currentSpaceInd: number;
+  setCurrentSpaceInd: (index: number) => void;
+}) {
+  const images = spaces.map((space) => space.src);
   if (images.length === 0) return null;
 
   /* refs (persist across renders, mutable) */
@@ -39,7 +46,6 @@ export default function Carousel({ images }: CarouselProps) {
 
   /* state (drives re-render) */
   const [layout, setLayout] = useState<Layout>(INITIAL_LAYOUT);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -49,7 +55,9 @@ export default function Carousel({ images }: CarouselProps) {
   const step = slideWidth + gap;
   const baseOffset = slideWidth > 0 ? (carouselWidth - slideWidth) / 2 : 0;
   const translateX =
-    slideWidth > 0 ? baseOffset - currentIndex * step + dragOffset : dragOffset;
+    slideWidth > 0
+      ? baseOffset - currentSpaceInd * step + dragOffset
+      : dragOffset;
 
   const trackStyle: React.CSSProperties = {
     transform: `translateX(${translateX}px)`,
@@ -96,10 +104,10 @@ export default function Carousel({ images }: CarouselProps) {
 
   // clamp current index if images length shrinks
   useEffect(() => {
-    if (currentIndex >= images.length && images.length > 0) {
-      setCurrentIndex(images.length - 1);
+    if (currentSpaceInd >= images.length && images.length > 0) {
+      setCurrentSpaceInd(images.length - 1);
     }
-  }, [currentIndex, images.length]);
+  }, [currentSpaceInd, images.length]);
 
   /* -------------------------------------------------------------------------- */
   /*                                   helpers                                  */
@@ -177,19 +185,19 @@ export default function Carousel({ images }: CarouselProps) {
     setIsDragging(false);
 
     const offset = dragOffsetRef.current;
-    let next = currentIndex;
+    let next = currentSpaceInd;
 
     if (shouldAdvance(offset)) {
-      if (offset < 0 && currentIndex < images.length - 1)
-        next = currentIndex + 1;
-      else if (offset > 0 && currentIndex > 0) next = currentIndex - 1;
+      if (offset < 0 && currentSpaceInd < images.length - 1)
+        next = currentSpaceInd + 1;
+      else if (offset > 0 && currentSpaceInd > 0) next = currentSpaceInd - 1;
     }
 
     dragOffsetRef.current = 0;
     setDragOffset(0);
 
-    if (next !== currentIndex) {
-      setCurrentIndex(next);
+    if (next !== currentSpaceInd) {
+      setCurrentSpaceInd(next);
       startTransition();
     }
   }
@@ -215,17 +223,44 @@ export default function Carousel({ images }: CarouselProps) {
         style={trackStyle}
       >
         {images.map((src, index) => (
+          // each slide
           <div
             ref={index === 0 ? firstSlideRef : undefined}
             className={styles.slide}
             key={`${src}-${index}`}
           >
+            {/* the space image */}
             <img
               className={styles.image}
               src={src}
               alt={`Slide ${index + 1}`}
               draggable={false}
             />
+
+            {/* the space caption */}
+            <div className={styles.caption}>
+              <div className={styles["caption-text"]}>
+                <h1 className={styles.name}>{spaces[index].name}</h1>
+                <div className={styles.description}>
+                  <p>Floor - {spaces[index].floor}</p>
+                  <p>Wall - {spaces[index].wall}</p>
+                </div>
+              </div>
+              <div className={styles["caption-actions"]}>
+                <button className={buttonStyles.button}>
+                  <ShareNetworkIcon size={16} />
+                  Share
+                </button>
+                <button className={buttonStyles.button}>
+                  <HeartIcon size={16} />
+                  Favorite
+                </button>
+                <button className={buttonStyles.button}>
+                  <CopyIcon size={16} />
+                  Duplicate
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

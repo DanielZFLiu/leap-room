@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 // external
 import {
@@ -14,38 +14,69 @@ import { useState } from "react";
 import ToolBar from "@/components/ToolBar";
 import Carousel from "@/components/Carousel";
 
+// data
+import { sampleSpaces } from "@/data/data";
+
 // style
 import styles from "./page.module.css";
 
 // types
 import type { ToolbarProps } from "@/components/ToolBar";
+
+/* -------------------------------------------------------------------------- */
+/*                             types and constants                            */
+/* -------------------------------------------------------------------------- */
 type ToolbarButtons = ToolbarProps["buttons"];
 
-const mainViewButtons: ToolbarButtons = [
-  { icon: SignOutIcon, label: "Exit", onClick: () => {} },
-  { icon: PauseIcon, label: "My Spaces", onClick: () => {} },
-  { icon: ShareNetworkIcon, label: "Share", onClick: () => {} },
-];
-const carouselViewButtons: ToolbarButtons = [
-  { icon: CheckIcon, label: "Done", onClick: () => {} },
-];
-
-const sampleImages = [
-  "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1724582586413-6b69e1c94a17?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&q=80"
-]
-
-
 export default function Home() {
+  // states
   const [mode, setMode] = useState<"main" | "carousel">("main");
+  const [currentSpace, setCurrentSpace] = useState(0);
+
+  // toolbar buttons
+  const mainViewButtons: ToolbarButtons = [
+    { icon: SignOutIcon, label: "Exit", onClick: () => {}, rotate: "180deg" },
+    {
+      icon: PauseIcon,
+      label: "My Spaces",
+      onClick: () => {
+        setMode("carousel");
+      },
+    },
+    { icon: ShareNetworkIcon, label: "Share", onClick: () => {} },
+  ];
+  const carouselViewButtons: ToolbarButtons = [
+    {
+      icon: CheckIcon,
+      label: "Done",
+      onClick: () => {
+        setMode("main");
+      },
+    },
+  ];
+
+  /* -------------------------------------------------------------------------- */
+  /*                                   render                                   */
+  /* -------------------------------------------------------------------------- */
   return (
-    <main className={styles.main}>
+    <main className={styles["main-canvas"]}>
       <ToolBar
         buttons={mode === "main" ? mainViewButtons : carouselViewButtons}
       />
-      <Carousel images={sampleImages} />
+
+      {mode === "carousel" ? (
+        <Carousel
+          spaces={sampleSpaces}
+          currentSpaceInd={currentSpace}
+          setCurrentSpaceInd={setCurrentSpace}
+        />
+      ) : (
+        <img
+          src={sampleSpaces[currentSpace].src}
+          alt={sampleSpaces[currentSpace].name}
+          className={styles["main-img"]}
+        />
+      )}
     </main>
   );
 }
